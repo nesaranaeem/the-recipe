@@ -16,8 +16,13 @@ const loadmeal = (search) => {
 const meals = (meal) => {
   const getElement = document.getElementById("meal-container");
   getElement.textContent = ``;
+  const searchTitle = document.getElementById("search-title");
+  const resultText = document.createElement("p");
+  resultText.innerHTML = `Total <b>${meal.length}</b> Recipe found`;
+  searchTitle.appendChild(resultText);
+
+  //show 6 result per page
   meal.forEach((meal) => {
-    // console.log(meal);
     const createElement = document.createElement("div");
     createElement.classList.add("col");
     createElement.innerHTML = `
@@ -61,6 +66,23 @@ const meals = (meal) => {
     `;
     getElement.appendChild(createElement);
   });
+  toggleLoader(false);
 };
 
-loadmeal("fish");
+document.getElementById("search-btn").addEventListener("click", function () {
+  toggleLoader(true);
+  const getSearchField = document.getElementById("search-meals-field");
+
+  const searchText = getSearchField.value;
+  loadmeal(searchText);
+});
+//loader
+const toggleLoader = (isLoading) => {
+  const getLoader = document.getElementById("loader");
+  if (isLoading) {
+    getLoader.classList.remove("d-none");
+  } else {
+    getLoader.classList.add("d-none");
+  }
+};
+loadmeal("beef");
