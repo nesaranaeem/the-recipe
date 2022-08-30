@@ -101,9 +101,7 @@ const details = (id) => {
   <img src="${id[0].strMealThumb}" class="img-thumbnail" alt="${id[0].strMealThumb}">
   <p class="text-center py-2"><b>Instruction: </b></p>
   <p class="text-center">${id[0].strInstructions}</p>
-  <p class="text-center py-2"><b>Video: </b></p> <iframe width="420" height="315"
-  src="${id[0].strYoutube}">
-  </iframe>
+
   `;
 };
 loadmeal("beef");
