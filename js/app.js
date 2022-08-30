@@ -34,7 +34,9 @@ const meals = (meal) => {
       30
     )}</h5>
       <p class="card-text">${meal.strMeal.slice(0, 50)}</p>
-      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" id="meal-details">
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="getDetails(${
+        meal.idMeal
+      })">
       Learn More
     </button>
     </div>
@@ -44,17 +46,15 @@ const meals = (meal) => {
 
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="mealDetails" aria-hidden="true">
   <div class="modal-dialog">
-    <div class="modal-content">
+    <div class="modal-content w-100">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">${meal.strMeal}</h5>
+        <h5 class="modal-title" id="mealDetails">${meal.strMeal}</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body" id="details-body">
-      <img src="${meal.strMealThumb}" class="img-thumbnail" alt="${
-      meal.strMeal
-    }">
+      
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -84,5 +84,26 @@ const toggleLoader = (isLoading) => {
   } else {
     getLoader.classList.add("d-none");
   }
+};
+
+//get details
+
+const getDetails = (id) => {
+  const url = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
+  fetch(url)
+    .then((result) => result.json())
+    .then((data) => details(data.meals));
+};
+const details = (id) => {
+  console.log(id[0].strMeal);
+  const getElement = document.getElementById("details-body");
+  getElement.innerHTML = `
+  <img src="${id[0].strMealThumb}" class="img-thumbnail" alt="${id[0].strMealThumb}">
+  <p class="text-center py-2"><b>Instruction: </b></p>
+  <p class="text-center">${id[0].strInstructions}</p>
+  <p class="text-center py-2"><b>Video: </b></p> <iframe width="420" height="315"
+  src="${id[0].strYoutube}">
+  </iframe>
+  `;
 };
 loadmeal("beef");
